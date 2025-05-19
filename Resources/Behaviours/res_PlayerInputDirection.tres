@@ -1,0 +1,9 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://0yej8q4rjrtt"]
+
+[ext_resource type="Script" uid="uid://by8h86kp0qbdp" path="res://Entities/Behaviours/PlayerInputDirection.cs" id="1_u41e4"]
+
+[resource]
+resource_local_to_scene = true
+script = ExtResource("1_u41e4")
+turnSpeed = 0.5
+Enabled = true

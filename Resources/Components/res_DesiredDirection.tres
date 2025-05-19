@@ -1,0 +1,7 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://ci3mq8udoj7jm"]
+
+[ext_resource type="Script" uid="uid://dh4l5bw4rsal1" path="res://Entities/Components/DesiredDirection.cs" id="1_kjyei"]
+
+[resource]
+resource_local_to_scene = true
+script = ExtResource("1_kjyei")

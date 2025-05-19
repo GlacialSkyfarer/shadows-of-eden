@@ -1,0 +1,45 @@
+[gd_scene load_steps=10 format=3 uid="uid://cfmr6jpqeytde"]
+
+[ext_resource type="Script" uid="uid://cp02s6jjfjxbe" path="res://Entities/CharacterEntity3D.cs" id="1_q6jaf"]
+[ext_resource type="Resource" uid="uid://da54ei8ryuovi" path="res://Resources/Behaviours/res_HLockedMovement.tres" id="2_q6jaf"]
+[ext_resource type="Resource" uid="uid://0yej8q4rjrtt" path="res://Resources/Behaviours/res_PlayerInputDirection.tres" id="3_bdv4f"]
+[ext_resource type="Resource" uid="uid://c5csemvwxmqan" path="res://Resources/Components/res_CharacterBody3DData.tres" id="4_q6jaf"]
+[ext_resource type="Resource" uid="uid://ci3mq8udoj7jm" path="res://Resources/Components/res_DesiredDirection.tres" id="5_bdv4f"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jxbce"]
+billboard_mode = 2
+
+[sub_resource type="QuadMesh" id="QuadMesh_yi5m6"]
+material = SubResource("StandardMaterial3D_jxbce")
+
+[sub_resource type="QuadMesh" id="QuadMesh_q6jaf"]
+size = Vector2(20, 20)
+
+[sub_resource type="Environment" id="Environment_q6jaf"]
+
+[node name="Root" type="Node3D"]
+
+[node name="Player" type="CharacterBody3D" parent="."]
+script = ExtResource("1_q6jaf")
+_behaviours = Dictionary[String, Resource]({
+"HLockedMovement": ExtResource("2_q6jaf"),
+"PlayerInputDirection": ExtResource("3_bdv4f")
+})
+_abilities = Dictionary[String, Resource]({})
+_components = Dictionary[String, Resource]({
+"CharacterBody3DData": ExtResource("4_q6jaf"),
+"DesiredDirection": ExtResource("5_bdv4f")
+})
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player"]
+mesh = SubResource("QuadMesh_yi5m6")
+
+[node name="Camera3D" type="Camera3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 0.93727, 0.348604, 0, -0.348604, 0.93727, 0.456672, 1.34222, 1.70362)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.97607, 0)
+mesh = SubResource("QuadMesh_q6jaf")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_q6jaf")
