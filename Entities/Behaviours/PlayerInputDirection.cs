@@ -1,21 +1,30 @@
 using Godot;
 
+[GlobalClass]
 public partial class PlayerInputDirection : Behaviour
 {
 
-    public override void _Process(double delta, IEntity owner)
+    private CameraComponent cameraComponent;
+    private DesiredDirection desiredDirection;
+    Node3D cameraPivot;
+    [Export] private float lerpPower = 1;
+
+    public override void _EntityReady()
     {
 
-        DesiredDirection desiredDirection;
+        if (!GetComponentVariable(out desiredDirection)) return;
+        if (!GetComponentVariable(out cameraComponent)) return;
+        cameraPivot = GetNode<Node3D>(cameraComponent.CameraPivotPath);
 
-        var components = owner.GetComponents();
-        if (!GetComponentVariable("DesiredDirection", components, out desiredDirection)) return;
+        base._EntityReady();
 
-        Vector2 inputDirection = new Vector2(
-            (Input.IsKeyPressed(KeyMap.MOVEMENT.left) ? -1 : 0) + (Input.IsKeyPressed(KeyMap.MOVEMENT.right) ? 1 : 0),
-            (Input.IsKeyPressed(KeyMap.MOVEMENT.up) ? -1 : 0) + (Input.IsKeyPressed(KeyMap.MOVEMENT.down) ? 1 : 0));
+    }
 
-        Vector3 targetDirection = new Vector3(inputDirection.X, 0, inputDirection.Y).Normalized();
+    protected override void _BehaviourProcess(double delta)
+    {
+        Vector2 inputDirection = Input.GetVector("movement.left", "movement.right", "movement.up", "movement.down");
+
+        Vector3 targetDirection = inputDirection.X * cameraPivot.GlobalBasis.X + inputDirection.Y * cameraPivot.GlobalBasis.Z;
 
         desiredDirection.Direction = targetDirection;
 

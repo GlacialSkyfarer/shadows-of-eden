@@ -1,45 +1,38 @@
-[gd_scene load_steps=10 format=3 uid="uid://cfmr6jpqeytde"]
+[gd_scene load_steps=5 format=3 uid="uid://cfmr6jpqeytde"]
 
-[ext_resource type="Script" uid="uid://cp02s6jjfjxbe" path="res://Entities/CharacterEntity3D.cs" id="1_q6jaf"]
-[ext_resource type="Resource" uid="uid://da54ei8ryuovi" path="res://Resources/Behaviours/res_HLockedMovement.tres" id="2_q6jaf"]
-[ext_resource type="Resource" uid="uid://0yej8q4rjrtt" path="res://Resources/Behaviours/res_PlayerInputDirection.tres" id="3_bdv4f"]
-[ext_resource type="Resource" uid="uid://c5csemvwxmqan" path="res://Resources/Components/res_CharacterBody3DData.tres" id="4_q6jaf"]
-[ext_resource type="Resource" uid="uid://ci3mq8udoj7jm" path="res://Resources/Components/res_DesiredDirection.tres" id="5_bdv4f"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jxbce"]
-billboard_mode = 2
-
-[sub_resource type="QuadMesh" id="QuadMesh_yi5m6"]
-material = SubResource("StandardMaterial3D_jxbce")
+[ext_resource type="PackedScene" uid="uid://d04v3ijj3wu3g" path="res://Scenes/Entities/ent_player.tscn" id="1_imkto"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_q6jaf"]
 size = Vector2(20, 20)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_m7hm8"]
+data = PackedVector3Array(10, -10, 0, -10, -10, 0, 10, 10, 0, -10, -10, 0, -10, 10, 0, 10, 10, 0)
 
 [sub_resource type="Environment" id="Environment_q6jaf"]
 
 [node name="Root" type="Node3D"]
 
-[node name="Player" type="CharacterBody3D" parent="."]
-script = ExtResource("1_q6jaf")
-_behaviours = Dictionary[String, Resource]({
-"HLockedMovement": ExtResource("2_q6jaf"),
-"PlayerInputDirection": ExtResource("3_bdv4f")
-})
-_abilities = Dictionary[String, Resource]({})
-_components = Dictionary[String, Resource]({
-"CharacterBody3DData": ExtResource("4_q6jaf"),
-"DesiredDirection": ExtResource("5_bdv4f")
-})
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Player"]
-mesh = SubResource("QuadMesh_yi5m6")
-
-[node name="Camera3D" type="Camera3D" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 0.93727, 0.348604, 0, -0.348604, 0.93727, 0.456672, 1.34222, 1.70362)
+[node name="Player" parent="." instance=ExtResource("1_imkto")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.97607, 0)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
 mesh = SubResource("QuadMesh_q6jaf")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_m7hm8")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_q6jaf")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.22384, 0.185586)
+shadow_enabled = true
+omni_range = 11.15
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.974299, -0.133602, 0.181359, 0, 0.805122, 0.59311, -0.225257, -0.577866, 0.784429, 0, 0, 0)
+light_color = Color(0.14902, 0.145098, 0.156863, 1)
+shadow_enabled = true

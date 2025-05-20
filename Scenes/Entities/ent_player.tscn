@@ -1,0 +1,137 @@
+[gd_scene load_steps=19 format=3 uid="uid://d04v3ijj3wu3g"]
+
+[ext_resource type="Script" uid="uid://cp02s6jjfjxbe" path="res://Entities/CharacterEntity3D.cs" id="1_i0xlb"]
+[ext_resource type="Texture2D" uid="uid://4s17bygp6hmn" path="res://Textures/tex_peanut.png" id="2_167sv"]
+[ext_resource type="Script" uid="uid://b7e2gsxw6rcyn" path="res://Entities/Behaviours/FollowDesiredDirection.cs" id="3_i567h"]
+[ext_resource type="Script" uid="uid://by8h86kp0qbdp" path="res://Entities/Behaviours/PlayerInputDirection.cs" id="4_dqex7"]
+[ext_resource type="Script" uid="uid://b02todwem5sdq" path="res://Entities/Behaviours/ApplyGravity.cs" id="5_xi5yg"]
+[ext_resource type="Script" uid="uid://dh4l5bw4rsal1" path="res://Entities/Components/DesiredDirection.cs" id="6_ai3tl"]
+[ext_resource type="Script" uid="uid://khj8plaid6gt" path="res://Entities/Behaviours/OTSCamera.cs" id="6_i567h"]
+[ext_resource type="Script" uid="uid://bmmvhmbygtxeq" path="res://Entities/Behaviours/PlayerCrosshair.cs" id="7_ai3tl"]
+[ext_resource type="Script" uid="uid://csgyx4ry27m7l" path="res://Entities/Components/GravityComponent.cs" id="7_cwip2"]
+[ext_resource type="Script" uid="uid://bb4nms1jpsj72" path="res://Entities/Behaviours/RaycastAimPoint.cs" id="8_cs0cj"]
+[ext_resource type="Script" uid="uid://cerjufb0nunpg" path="res://Entities/Components/CameraComponent.cs" id="9_dqex7"]
+[ext_resource type="Texture2D" uid="uid://kckhes7qhkcp" path="res://Textures/tex_crosshair_temp.png" id="10_dqex7"]
+[ext_resource type="Script" uid="uid://c0wvgfhsu7m16" path="res://Entities/Components/CrosshairComponent.cs" id="11_cwip2"]
+[ext_resource type="Script" uid="uid://oxshysaytxyw" path="res://Entities/Components/AimPoint.cs" id="12_cwip2"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_q6jaf"]
+height = 0.747559
+radius = 0.195801
+
+[sub_resource type="SeparationRayShape3D" id="SeparationRayShape3D_m7hm8"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xi5yg"]
+render_priority = 10
+transparency = 3
+alpha_hash_scale = 1.0
+alpha_antialiasing_mode = 0
+no_depth_test = true
+shading_mode = 0
+albedo_texture = ExtResource("10_dqex7")
+billboard_mode = 1
+fixed_size = true
+
+[sub_resource type="QuadMesh" id="QuadMesh_ai3tl"]
+material = SubResource("StandardMaterial3D_xi5yg")
+size = Vector2(0.05, 0.05)
+
+[node name="Player" type="CharacterBody3D"]
+collision_layer = 2
+script = ExtResource("1_i0xlb")
+metadata/_custom_type_script = "uid://cp02s6jjfjxbe"
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+pixel_size = 0.0156
+billboard = 2
+shaded = true
+texture_filter = 0
+texture = ExtResource("2_167sv")
+
+[node name="Behaviours" type="Node" parent="."]
+
+[node name="FollowDesiredDirection" type="Node" parent="Behaviours"]
+script = ExtResource("3_i567h")
+characterBodyPath = NodePath("../..")
+accelerationTime = 0.15
+deccelerationTime = 0.1
+targetSpeed = 9.0
+lockY = true
+metadata/_custom_type_script = "uid://b7e2gsxw6rcyn"
+
+[node name="PlayerInputDirection" type="Node" parent="Behaviours"]
+script = ExtResource("4_dqex7")
+metadata/_custom_type_script = "uid://by8h86kp0qbdp"
+
+[node name="ApplyGravity" type="Node" parent="Behaviours"]
+script = ExtResource("5_xi5yg")
+characterBodyPath = NodePath("../..")
+metadata/_custom_type_script = "uid://b02todwem5sdq"
+
+[node name="OTSCamera" type="Node" parent="Behaviours"]
+script = ExtResource("6_i567h")
+metadata/_custom_type_script = "uid://khj8plaid6gt"
+
+[node name="PlayerCrosshair" type="Node" parent="Behaviours"]
+script = ExtResource("7_ai3tl")
+metadata/_custom_type_script = "uid://bmmvhmbygtxeq"
+
+[node name="RaycastAimPoint" type="Node" parent="Behaviours"]
+script = ExtResource("8_cs0cj")
+castPath = NodePath("../../CameraPivot/SpringArm3D/Camera3D/AimCast")
+metadata/_custom_type_script = "uid://bb4nms1jpsj72"
+
+[node name="Abilities" type="Node" parent="."]
+
+[node name="Components" type="Node" parent="."]
+
+[node name="DesiredDirection" type="Node" parent="Components"]
+script = ExtResource("6_ai3tl")
+metadata/_custom_type_script = "uid://dh4l5bw4rsal1"
+
+[node name="GravityComponent" type="Node" parent="Components"]
+script = ExtResource("7_cwip2")
+metadata/_custom_type_script = "uid://csgyx4ry27m7l"
+
+[node name="CameraComponent" type="Node" parent="Components"]
+script = ExtResource("9_dqex7")
+CameraPath = NodePath("../../CameraPivot/SpringArm3D/Camera3D")
+CameraPivotPath = NodePath("../../CameraPivot")
+CameraSpringArmPath = NodePath("../../CameraPivot/SpringArm3D")
+XRotationClamp = PackedFloat32Array(-80, 45)
+metadata/_custom_type_script = "uid://cerjufb0nunpg"
+
+[node name="CrosshairComponent" type="Node" parent="Components"]
+script = ExtResource("11_cwip2")
+CrosshairPath = NodePath("../../CrosshairCast/MeshInstance3D")
+CastPath = NodePath("../../CrosshairCast")
+metadata/_custom_type_script = "uid://c0wvgfhsu7m16"
+
+[node name="AimPoint" type="Node" parent="Components"]
+script = ExtResource("12_cwip2")
+metadata/_custom_type_script = "uid://oxshysaytxyw"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.126221, 0)
+shape = SubResource("CylinderShape3D_q6jaf")
+
+[node name="CameraPivot" type="Node3D" parent="."]
+
+[node name="SpringArm3D" type="SpringArm3D" parent="CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.730129, 0.419997, 0)
+shape = SubResource("SeparationRayShape3D_m7hm8")
+spring_length = 2.0
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot/SpringArm3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="AimCast" type="RayCast3D" parent="CameraPivot/SpringArm3D/Camera3D"]
+target_position = Vector3(0, 0, -50)
+
+[node name="CrosshairCast" type="RayCast3D" parent="."]
+enabled = false
+target_position = Vector3(0, 0, 0)
+collision_mask = 5
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CrosshairCast"]
+mesh = SubResource("QuadMesh_ai3tl")
