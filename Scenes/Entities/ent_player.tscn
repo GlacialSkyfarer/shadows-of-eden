@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://d04v3ijj3wu3g"]
+[gd_scene load_steps=21 format=3 uid="uid://d04v3ijj3wu3g"]
 
 [ext_resource type="Script" uid="uid://cp02s6jjfjxbe" path="res://Entities/CharacterEntity3D.cs" id="1_i0xlb"]
 [ext_resource type="Texture2D" uid="uid://4s17bygp6hmn" path="res://Textures/tex_peanut.png" id="2_167sv"]
@@ -15,11 +15,27 @@
 [ext_resource type="Script" uid="uid://c0wvgfhsu7m16" path="res://Entities/Components/CrosshairComponent.cs" id="11_cwip2"]
 [ext_resource type="Script" uid="uid://oxshysaytxyw" path="res://Entities/Components/AimPoint.cs" id="12_cwip2"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cs0cj"]
+transparency = 2
+alpha_scissor_threshold = 0.495
+alpha_antialiasing_mode = 0
+cull_mode = 2
+shading_mode = 0
+albedo_texture = ExtResource("2_167sv")
+texture_filter = 0
+disable_receive_shadows = true
+billboard_mode = 2
+distance_fade_mode = 2
+distance_fade_max_distance = 1.8
+
+[sub_resource type="QuadMesh" id="QuadMesh_v5o2a"]
+material = SubResource("StandardMaterial3D_cs0cj")
+
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_q6jaf"]
 height = 0.747559
 radius = 0.195801
 
-[sub_resource type="SeparationRayShape3D" id="SeparationRayShape3D_m7hm8"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_cs0cj"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xi5yg"]
 render_priority = 10
@@ -41,12 +57,8 @@ collision_layer = 2
 script = ExtResource("1_i0xlb")
 metadata/_custom_type_script = "uid://cp02s6jjfjxbe"
 
-[node name="Sprite3D" type="Sprite3D" parent="."]
-pixel_size = 0.0156
-billboard = 2
-shaded = true
-texture_filter = 0
-texture = ExtResource("2_167sv")
+[node name="Sprite" type="MeshInstance3D" parent="."]
+mesh = SubResource("QuadMesh_v5o2a")
 
 [node name="Behaviours" type="Node" parent="."]
 
@@ -98,6 +110,8 @@ script = ExtResource("9_dqex7")
 CameraPath = NodePath("../../CameraPivot/SpringArm3D/Camera3D")
 CameraPivotPath = NodePath("../../CameraPivot")
 CameraSpringArmPath = NodePath("../../CameraPivot/SpringArm3D")
+HorizontalSensitivity = 0.8
+VerticalSensitivity = 0.8
 XRotationClamp = PackedFloat32Array(-80, 45)
 metadata/_custom_type_script = "uid://cerjufb0nunpg"
 
@@ -119,11 +133,10 @@ shape = SubResource("CylinderShape3D_q6jaf")
 
 [node name="SpringArm3D" type="SpringArm3D" parent="CameraPivot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.730129, 0.419997, 0)
-shape = SubResource("SeparationRayShape3D_m7hm8")
+shape = SubResource("SphereShape3D_cs0cj")
 spring_length = 2.0
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot/SpringArm3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="AimCast" type="RayCast3D" parent="CameraPivot/SpringArm3D/Camera3D"]
 target_position = Vector3(0, 0, -50)
