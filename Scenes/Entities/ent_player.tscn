@@ -62,6 +62,19 @@ mesh = SubResource("QuadMesh_v5o2a")
 
 [node name="Behaviours" type="Node" parent="."]
 
+[node name="OTSCamera" type="Node" parent="Behaviours"]
+script = ExtResource("6_i567h")
+metadata/_custom_type_script = "uid://khj8plaid6gt"
+
+[node name="RaycastAimPoint" type="Node" parent="Behaviours"]
+script = ExtResource("8_cs0cj")
+castPath = NodePath("../../CameraPivot/SpringArm3D/Camera3D/RayCast3D")
+metadata/_custom_type_script = "uid://bb4nms1jpsj72"
+
+[node name="PlayerCrosshair" type="Node" parent="Behaviours"]
+script = ExtResource("7_ai3tl")
+metadata/_custom_type_script = "uid://bmmvhmbygtxeq"
+
 [node name="FollowDesiredDirection" type="Node" parent="Behaviours"]
 script = ExtResource("3_i567h")
 characterBodyPath = NodePath("../..")
@@ -79,19 +92,6 @@ metadata/_custom_type_script = "uid://by8h86kp0qbdp"
 script = ExtResource("5_xi5yg")
 characterBodyPath = NodePath("../..")
 metadata/_custom_type_script = "uid://b02todwem5sdq"
-
-[node name="OTSCamera" type="Node" parent="Behaviours"]
-script = ExtResource("6_i567h")
-metadata/_custom_type_script = "uid://khj8plaid6gt"
-
-[node name="PlayerCrosshair" type="Node" parent="Behaviours"]
-script = ExtResource("7_ai3tl")
-metadata/_custom_type_script = "uid://bmmvhmbygtxeq"
-
-[node name="RaycastAimPoint" type="Node" parent="Behaviours"]
-script = ExtResource("8_cs0cj")
-castPath = NodePath("../../CameraPivot/SpringArm3D/Camera3D/AimCast")
-metadata/_custom_type_script = "uid://bb4nms1jpsj72"
 
 [node name="Abilities" type="Node" parent="."]
 
@@ -138,9 +138,6 @@ spring_length = 2.0
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot/SpringArm3D"]
 
-[node name="AimCast" type="RayCast3D" parent="CameraPivot/SpringArm3D/Camera3D"]
-target_position = Vector3(0, 0, -50)
-
 [node name="HUD" type="CanvasLayer" parent="CameraPivot/SpringArm3D/Camera3D"]
 
 [node name="ColorRect" type="ColorRect" parent="CameraPivot/SpringArm3D/Camera3D/HUD"]
@@ -157,6 +154,9 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 color = Color(0.529067, 0.529067, 0.529067, 1)
+
+[node name="RayCast3D" type="RayCast3D" parent="CameraPivot/SpringArm3D/Camera3D"]
+target_position = Vector3(0, 0, -100)
 
 [node name="CrosshairCast" type="RayCast3D" parent="."]
 target_position = Vector3(0, 0, 0)
