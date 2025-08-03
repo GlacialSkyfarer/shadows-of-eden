@@ -27,28 +27,51 @@ public partial class PlayerEntity : CharacterBody3D, IEntity {
         Node behavioursContainer = GetNode<Node>(BEHAVIOURS_CONTAINER_PATH);
         if (behavioursContainer == null)
         {
-            GD.PrintErr("Entity '" + this.Name + "' does not have a child named 'Behaviours' and will be removed!");
+            GD.PrintErr($"Entity '{this.Name}' does not have a child named 'Behaviours' and will be removed!");
             QueueFree();
             return;
         }
 
         _walkingGroup = GetBehaviourGroup(behavioursContainer, WALKING_GROUP_NAME);
         _jumpingGroup = GetBehaviourGroup(behavioursContainer, JUMPING_GROUP_NAME);
+    }
 
+    public override void _Process(double delta)
+    {
+
+        switch (_currentState) {
+
+            case PlayerState.Idle: 
+
+                if (!IsOnFloor()) {
+                    _currentState = PlayerState.Falling;
+                }
+                break;
+            case PlayerState.Falling:
+                if (IsOnFloor()) {
+                    _currentState = PlayerState.Idle;
+                }
+                if (Velocity.Y < 0) {
+                    _isJumping = false;
+                }
+                break;
+            default:
+                break;
+
+        }
+    
     }
 
     private BehaviourGroup GetBehaviourGroup(Node parent, string name) {
-
-        
+    
         BehaviourGroup group = parent.GetNode<BehaviourGroup>(name);
         if (group == null) {
 
-            GD.PrintErr("Entity '" + this.Name + "' does not have required behaviour group '" + name + "' and will be removed!");
+            GD.PrintErr($"Entity '{this.Name}' does not have required behaviour group '{name}' and will be removed!");
             QueueFree();
 
         }
         return group;
-
     }
 
 }
