@@ -1,13 +1,8 @@
 using Godot;
+using Godot.Collections;
 
-[Icon("res://Icons/icn_Component.svg")]
-public partial class Component : Node
-{
-    public IEntity GetEntity()
-    {
-        Node owner = GetParentOrNull<Node>().GetParentOrNull<Node>();
+public partial class Component : Node {
 
-        if (!(owner is IEntity)) return null;
-        return owner as IEntity;
-    }
+    [Export] public bool Enabled = true;
+
 }

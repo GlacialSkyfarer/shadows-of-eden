@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://cfmr6jpqeytde"]
+[gd_scene load_steps=10 format=3 uid="uid://cfmr6jpqeytde"]
 
 [ext_resource type="PackedScene" uid="uid://d04v3ijj3wu3g" path="res://Scenes/Entities/ent_player.tscn" id="1_imkto"]
+[ext_resource type="LightmapGIData" uid="uid://cq7e1y0qaub1k" path="res://Scenes/scn_test.lmbake" id="2_ultsx"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_q6jaf"]
 size = Vector2(20, 20)
@@ -10,10 +11,19 @@ data = PackedVector3Array(10, -10, 0, -10, -10, 0, 10, 10, 0, -10, -10, 0, -10, 
 
 [sub_resource type="Environment" id="Environment_q6jaf"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ultsx"]
+albedo_color = Color(0.34902, 0.254902, 1, 1)
+
 [sub_resource type="BoxMesh" id="BoxMesh_imkto"]
+lightmap_size_hint = Vector2i(14, 21)
+add_uv2 = true
 
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_ultsx"]
 data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fdnkw"]
+albedo_color = Color(1, 0.313726, 0, 1)
+roughness = 0.35
 
 [node name="Root" type="Node3D"]
 
@@ -32,18 +42,9 @@ shape = SubResource("ConcavePolygonShape3D_m7hm8")
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_q6jaf")
 
-[node name="OmniLight3D" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.22384, 0.185586)
-shadow_enabled = true
-omni_range = 11.15
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.974299, -0.133602, 0.181359, 0, 0.805122, 0.59311, -0.225257, -0.577866, 0.784429, 0, 0, 0)
-light_color = Color(0.14902, 0.145098, 0.156863, 1)
-shadow_enabled = true
-
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 3.16312, 0, 0, 0, 1, -1.05919, 1.33139, -2.46578)
+material_override = SubResource("StandardMaterial3D_ultsx")
 mesh = SubResource("BoxMesh_imkto")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D2"]
@@ -51,11 +52,30 @@ mesh = SubResource("BoxMesh_imkto")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D2/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_ultsx")
 
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="MeshInstance3D2/StaticBody3D"]
+transform = Transform3D(0.974299, -0.133602, 0.181359, 0, 0.254534, 0.187508, -0.225257, -0.577866, 0.78443, 1.05919, -0.42091, 2.46578)
+visible = false
+light_color = Color(0.14902, 0.145098, 0.156863, 1)
+light_bake_mode = 1
+shadow_enabled = true
+
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 3.16312, 0, 0, 0, 1, 2.08446, 1.33139, 2.80067)
+material_override = SubResource("StandardMaterial3D_fdnkw")
 mesh = SubResource("BoxMesh_imkto")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D3"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D3/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_ultsx")
+
+[node name="LightmapGI" type="LightmapGI" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.87014)
+light_data = ExtResource("2_ultsx")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="LightmapGI"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.22384, 0.185586)
+light_energy = 2.655
+light_bake_mode = 1
+shadow_enabled = true
+omni_range = 8.67
